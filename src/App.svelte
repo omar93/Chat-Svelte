@@ -1,9 +1,13 @@
 <script>
 	import MessageList from './components/messages/messageList.svelte'
 	import Form from './components/input/form.svelte'
-	import List from './components/other/list.svelte'
+	import List from './components/group/groupList.svelte'
+	import Modal from './components/other/modal.svelte'
+
+	let showModal = false
 </script>
 
+<Modal {showModal}></Modal>
 <div class="grandParent">
 	<div class="listContainer">
 		<List></List>
@@ -21,7 +25,7 @@
 		display: grid;
 		width: 100%;
 		height: 100%;
-		grid-template-columns: 200px 1fr;
+		grid-template-columns: 250px 1fr;
 		grid-template-rows: 1fr 50px;
 		grid-template-areas: 
 		'list main'
@@ -33,12 +37,12 @@
 	}
 	.messageContainer {
 		grid-area: main;
+		width: 100%;
 		overflow: scroll;
 		overflow-x: hidden;
 		-ms-overflow-style: none;
 		scrollbar-width: none;
 	}
-
 	.messageContainer::-webkit-scrollbar {
     	display: none;
 	}
@@ -49,4 +53,18 @@
 		grid-area: form;
 		border-top: black 1px solid;
 	}
+
+	@media screen and (max-width: 992px) {
+	.grandParent {
+		display: grid;
+		width: 100%;
+		height: 100%;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 50px;
+		grid-template-areas: 
+		'main'
+		'form';
+	}
+	.listContainer {display: none;}
+}
 </style>

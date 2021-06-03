@@ -16,6 +16,6 @@ messageStore.subscribe(data => messages = data)
 <style>
     .listContainer {
         width: 100%;
-        height: 100%;;
+        height: 100%;
     }
 </style>
