@@ -3,16 +3,16 @@
     import { idStore } from '../../stores/idStore'
     import dbHandler from '../../firebase/firebaseDB'
 
-    let message, name,id
+    let message,user,name
     let messages = []
     let db = new dbHandler()
 
     nameStore.subscribe(data => name = data)
-    idStore.subscribe(data => id = data)
+    idStore.subscribe(data => user = data)
 
     const handleSubmit = e => {
         e.preventDefault()
-        db.addNewMessage(id,message,name)
+        db.addNewMessage(user,message,name)
         message = ''
     }
 

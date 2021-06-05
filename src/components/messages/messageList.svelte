@@ -7,12 +7,11 @@ let messages = []
 const db = new dbhandler()
 
 messageStore.subscribe(data => {
-    console.log('store updated från list')
-    console.log(data)
     const newData = data.map(index => {
-        return { name:index.message, message: index.message, userID: index.userID }
+        return { name:index.name, message: index.message, userID: index.userID, photoUrl: index.photoUrl }
     })
     messages = newData
+    console.log(messages)
 })
 </script>
 

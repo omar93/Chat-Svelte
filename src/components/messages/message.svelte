@@ -1,13 +1,13 @@
 <script>
     import { idStore } from '../../stores/idStore'
-    export let message = 'Default message', name = 'User', userID = 33
+    export let message = 'Default message', name = 'User', userID = '33', photoUrl = ''
     let isFromMe
-    idStore.subscribe(data => data === userID ? isFromMe = true : false)
+    idStore.subscribe(data => data.userID === userID ? isFromMe = true : false)
 </script>
 
 <div class="{isFromMe ? 'me' : 'them'} messageContainer">
     {#if !isFromMe}
-        <img class="picture" src="./img/profile.png" alt="Profile">
+        <img class="picture" src="{photoUrl}" alt="Profile">
     {/if}
     <div class="{isFromMe ? 'meRadius' : 'themRadius'} message-profile">
         {#if !isFromMe}
@@ -24,19 +24,18 @@
         display: flex;
         margin-top: 5px;
     }
+
+    .meRadius {border-top-left-radius: 1em;}
     .me {
         justify-content: flex-end;
         margin-right: 25%;
-        
     }
-    .meRadius {border-top-left-radius: 1em;}
-    
+
+    .themRadius {border-top-right-radius: 1em;}
     .them {
         justify-content: flex-start;
         margin-left: 25%;
-        
     }
-    .themRadius {border-top-right-radius: 1em;}
 
     .picture {
         grid-area: img;
@@ -54,6 +53,7 @@
     }
     .message {
         max-width: 400px;
+        min-width: 50px;
         height: auto;
         word-wrap: break-word;
     }

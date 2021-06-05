@@ -17,9 +17,8 @@
 	
 	firebase.auth().onAuthStateChanged(async Currentuser => {
 		if (Currentuser) {
-			idStore.set(Currentuser.uid)
+			idStore.set({'userID':Currentuser.uid, 'photoUrl': Currentuser.photoURL})
 			messageStore.set([])
-			console.log('store updated från FIRESTORE')
 			let messages = []
 			firebase.firestore().collection('groups').doc('group1').collection('messages')
 			.orderBy('created').onSnapshot(snapshot => {
@@ -30,6 +29,7 @@
 			})
 		} else {
 			console.log('You are offline, no syncing availabe')
+			idStore.set({'userID':0})
 		}
     })
 
