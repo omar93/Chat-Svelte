@@ -1,16 +1,48 @@
 <script>
+	// Firebase
+	import firebase from 'firebase/app'
+	import './firebase/firebaseInit'
+	import 'firebase/auth'
+
+	// Components
 	import MessageList from './components/messages/messageList.svelte'
 	import Form from './components/input/form.svelte'
 	import List from './components/group/groupList.svelte'
 	import Modal from './components/other/modal.svelte'
+	import GoogleButton from './components/other/googleButton.svelte'
+
+	// Stores
+	import { idStore } from './stores/idStore'
+	import { messageStore } from './stores/messageStore'
+	
+	firebase.auth().onAuthStateChanged(async Currentuser => {
+		if (Currentuser) {
+			idStore.set(Currentuser.uid)
+			messageStore.set([])
+			console.log('store updated från FIRESTORE')
+			let messages = []
+			firebase.firestore().collection('groups').doc('group1').collection('messages')
+			.orderBy('created').onSnapshot(snapshot => {
+				snapshot.forEach(doc => {
+					messages = [...messages, doc.data()]
+				})
+				messageStore.set(messages)
+			})
+		} else {
+			console.log('You are offline, no syncing availabe')
+		}
+    })
 
 	let showModal = false
 </script>
 
-<Modal {showModal}></Modal>
+<Modal bind:showModal>
+<GoogleButton></GoogleButton>
+</Modal>
 <div class="grandParent">
 	<div class="listContainer">
 		<List></List>
+		<button on:click={(() => showModal = true)}>ShowModal</button>
 	</div>
 	<div class="messageContainer">
 		<MessageList></MessageList>

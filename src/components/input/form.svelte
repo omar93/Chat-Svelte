@@ -1,17 +1,18 @@
 <script>
-    import { messageStore } from '../../stores/messageStore'
     import { nameStore } from '../../stores/nameStore'
+    import { idStore } from '../../stores/idStore'
+    import dbHandler from '../../firebase/firebaseDB'
 
-    let message, name
+    let message, name,id
     let messages = []
+    let db = new dbHandler()
 
-    messageStore.subscribe(data => messages = data)
     nameStore.subscribe(data => name = data)
+    idStore.subscribe(data => id = data)
 
     const handleSubmit = e => {
         e.preventDefault()
-        messages = [...messages, {'name':name, 'message': message}]
-        messageStore.set(messages)
+        db.addNewMessage(id,message,name)
         message = ''
     }
 

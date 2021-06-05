@@ -1,5 +1,8 @@
 <script>
-    export let message = 'Default message', name = 'User', isFromMe = true
+    import { idStore } from '../../stores/idStore'
+    export let message = 'Default message', name = 'User', userID = 33
+    let isFromMe
+    idStore.subscribe(data => data === userID ? isFromMe = true : false)
 </script>
 
 <div class="{isFromMe ? 'me' : 'them'} messageContainer">
